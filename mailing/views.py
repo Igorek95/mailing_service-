@@ -4,7 +4,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 
 from .forms import MailingForm, MessageForm
 from .models import Client, Mailing, Message
-from .services import send_messages
 
 
 def home(request):
@@ -57,36 +56,42 @@ class MailingListView(ListView):
 
 
 class MailingCreateView(CreateView):
-    model = Mailing
     template_name = 'mailing/mailing_form.html'
-    form_class = MailingForm
-    success_url = reverse_lazy('mailing-list')
+
+    def get(self, request, *args, **kwargs):
+        form = MailingForm(initial={'status': 'Создана'})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = MailingForm(request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.status = request.POST['status']
+            form.save()
+            return redirect('mailing:mailing_list')
+        else:
+            result = "<h5 style='background-color: #a50000; color: black; border-radius: 7px; height: 30px; text-align: center;'>Неправильно заполнены данные!</h5>"
+        return render(request, self.template_name, {'form': form, 'result': result})
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
     template_name = 'mailing/mailing_form.html'
     form_class = MailingForm
-    success_url = reverse_lazy('mailing-list')
+    success_url = reverse_lazy('mailing_list')
 
 
 class MailingDeleteView(DeleteView):
     model = Mailing
     template_name = 'mailing/mailing_confirm_delete.html'
-    success_url = reverse_lazy('mailing-list')
+    success_url = reverse_lazy('mailing_list')
 
 
 class MailingSendView(UpdateView):
     model = Mailing
-    template_name = 'mailing/mailing_send.html'
-    fields = []
-
-    def form_valid(self, form):
-        mailing = form.instance
-        send_messages(mailing)
-        mailing.status = 'started'
-        mailing.save()
-        return redirect('mailing-list')
+    template_name = 'mailing/mailing_form.html'
+    form_class = MailingForm
+    success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingDetailView(ListView):

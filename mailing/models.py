@@ -15,6 +15,11 @@ class Client(models.Model):
 
 
 class Mailing(models.Model):
+    STATUS_CHOICES = [
+        ('Создана', 'Создана'),
+        ('Запущена', 'Запущена'),
+        ('Завершена', 'Завершена'),
+    ]
     FREQUENCY_CHOICES = [
         ('Раз в день', 'Раз в день'),
         ('Раз в неделю', 'Раз в неделю'),
@@ -22,7 +27,7 @@ class Mailing(models.Model):
     ]
     send_time = models.DateTimeField(verbose_name='Время отправки', )
     frequency = models.CharField(max_length=50, choices=FREQUENCY_CHOICES, verbose_name='частота отправки', )
-    status = models.CharField(max_length=50, default='created', verbose_name='Статус отправки', )
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Создана', verbose_name='Статус отправки')
 
     def __str__(self):
         return f'{self.send_time} ({self.frequency} {self.status})'

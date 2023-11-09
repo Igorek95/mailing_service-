@@ -84,3 +84,44 @@ body main .features p {
         margin: 0 auto;
         max-width: 600px;
     }
+
+form {
+    color: #fff;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-size: 1.2rem;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #ffc107;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    margin-top: 120px; /* Добавленное свойство */
+}
