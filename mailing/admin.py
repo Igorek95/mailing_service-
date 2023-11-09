@@ -26,6 +26,6 @@ class MailingLogAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('mailing', 'subject', 'body')
-    search_fields = ('mailing', 'subject', 'body')
-    list_filter = ('mailing', 'subject', 'body')
+    list_display = ('subject', 'body', 'mailing')
+    search_fields = ('subject', 'body', 'mailing')
+    list_filter = ('subject', 'body', 'mailing')

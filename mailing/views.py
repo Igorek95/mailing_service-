@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
-from .models import Client, Mailing, Message, MailingLog
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+
 from .forms import MailingForm, MessageForm
+from .models import Client, Mailing, Message
 from .services import send_messages
 
 
@@ -15,7 +16,9 @@ def contact(request):
 
 
 def about(request):
-    return render(request,'mailing/about.html')
+    return render(request, 'mailing/about.html')
+
+
 class ClientListView(ListView):
     model = Client
     template_name = 'mailing/client_list.html'
@@ -51,9 +54,6 @@ class MailingListView(ListView):
     model = Mailing
     template_name = 'mailing/mailing_list.html'
     context_object_name = 'mailings'
-
-
-
 
 
 class MailingCreateView(CreateView):
@@ -98,37 +98,41 @@ class MailingDetailView(ListView):
         mailing_id = self.kwargs['pk']
         return Message.objects.filter(mailing_id=mailing_id)
 
+
 class MessageListView(ListView):
     model = Message
-    template_name ='mailing/message_list.html'
+    template_name = 'mailing/message_list.html'
+    context_object_name = 'messages'
 
 
 class MessageCreateView(CreateView):
-    model = Message
     template_name = 'mailing/message_form.html'
-    form_class = MessageForm
 
-    def form_valid(self, form):
-        mailing_id = self.kwargs['mailing_id']
-        form.instance.mailing_id = mailing_id
-        return super().form_valid(form)
+    def get(self, request, *args, **kwargs):
+        form = MessageForm()
+        return render(request, self.template_name, {'form': form})
 
-    def get_success_url(self):
-        mailing_id = self.kwargs['mailing_id']
-        return reverse_lazy('mailing-detail', args=[mailing_id])
+    def post(self, request, *args, **kwargs):
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('mailing:message_list')  # переход на страницу со всеми сообщениями
+        else:
+            result = "<h5 style='background-color: #a50000; color: black; border-radius: 7px; height: 30px; text-align: center;'>Неправильно заполнены данные!</h5>"
+        return render(request, self.template_name, {'form': form, 'result': result})
 
 
 class MessageUpdateView(UpdateView):
     model = Message
-    template_name ='mailing/message_form.html'
+    template_name = 'mailing/message_form.html'
     form_class = MessageForm
-    success_url = reverse_lazy('message-list')
+    success_url = reverse_lazy('mailing:message_list')
 
 
 class MessageDetailView(ListView):
     model = Message
-    template_name ='mailing/message_detail.html'
-    context_object_name ='messages'
+    template_name = 'mailing/message_detail.html'
+    context_object_name = 'messages'
 
     def get_queryset(self):
         message_id = self.kwargs['pk']
@@ -143,8 +147,7 @@ class MessageDetailView(ListView):
 
 class MessageDeleteView(DeleteView):
     model = Message
-    template_name ='mailing/message_confirm_delete.html'
-    success_url = reverse_lazy('message-list')
+    template_name = 'mailing/message_confirm_delete.html'
 
-
-
+    def get_success_url(self):
+        return reverse_lazy('mailing:message_list')

@@ -20,9 +20,9 @@ class Mailing(models.Model):
         ('Раз в неделю', 'Раз в неделю'),
         ('Раз в месяц', 'Раз в месяц'),
     ]
-    send_time = models.DateTimeField(verbose_name='Время отправки',)
-    frequency = models.CharField(max_length=50, choices=FREQUENCY_CHOICES, verbose_name='частота отправки',)
-    status = models.CharField(max_length=50, default='created', verbose_name='Статус отправки',)
+    send_time = models.DateTimeField(verbose_name='Время отправки', )
+    frequency = models.CharField(max_length=50, choices=FREQUENCY_CHOICES, verbose_name='частота отправки', )
+    status = models.CharField(max_length=50, default='created', verbose_name='Статус отправки', )
 
     def __str__(self):
         return f'{self.send_time} ({self.frequency} {self.status})'
@@ -33,12 +33,13 @@ class Mailing(models.Model):
 
 
 class Message(models.Model):
-    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, verbose_name='Отправитель')
-    subject = models.CharField(max_length=200, verbose_name='Тема')
-    body = models.TextField(verbose_name='Сообщение')
+    subject = models.CharField(max_length=255, verbose_name='Тема')
+    body = models.TextField(verbose_name='Текст')
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE,
+                                verbose_name='Переодичность рассылки')
 
     def __str__(self):
-        return f'{self.subject} ({self.mailing})'
+        return self.subject
 
     class Meta:
         verbose_name = 'Сообщение'

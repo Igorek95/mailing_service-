@@ -22,7 +22,7 @@ aside img {
 }
 
 aside .logo {
-    font-size: 40px;
+    font-size: 30px;
     margin-top: 10px;
     font-weight: bold;
 }
@@ -33,7 +33,7 @@ aside h3 {
 }
 aside ul {list-style: none}
 aside ul li {
-    color: #fff;
+    color: black;
     margin-top: 20px;
     display: block;
     font-size: 18px;
@@ -64,3 +64,23 @@ body main .features p {
     margin: 20px auto ;
     font-size: 25px ;
 }
+
+.card {
+    background-color: black;
+    color: white;
+}
+
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.centered {
+        color: #fff;
+        margin: 0 auto;
+        max-width: 600px;
+    }

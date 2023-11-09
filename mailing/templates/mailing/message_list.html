@@ -3,14 +3,28 @@
    {% block content %}
 
 
-   <h1>Главная страница</h1>
+    <div class="row">
+        {% for object in object_list %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h1 class="card-text">{{ object.subject | title }}</h1>
+                    <p class="card-text">{{ object.body | title }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a class="btn btn-warning" href="{% url 'mailing:message-detail' pk=object.pk %}" role="button">Просмотреть</a>
+                            <a href="{% url 'mailing:message-update' pk=object.pk %}" role="button" class="btn btn-warning">Изменить</a>
+                            <a href="{% url 'mailing:message-delete' pk=object.pk %}" role="button" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-
-
-
-
-
-
-
+   <div class="text-center">
+        <a href="{% url 'mailing:message-create' %}" class="btn btn-primary">Добавить сообщение</a>
+    </div>
 
    {% endblock %}
