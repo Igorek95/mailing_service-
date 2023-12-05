@@ -1,7 +1,7 @@
    {% extends 'mailing/base.html' %}
 
    {% block content %}
-
+   {% if user.is_authenticated %}
     <div class="row">
         {% for object in object_list %}
         <div class="col-md-4">
@@ -26,4 +26,19 @@
    <div class="text-center">
         <a href="{% url 'mailing:mailing_create' %}" class="btn btn-primary">Добавить</a>
     </div>
+   {% else %}
+    <div class="form-container">
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="styled-link"><i class="fas fa-sign-out-alt"></i>Вход</button>
+    </form>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="styled-link"><i class="fas fa-sign-out-alt"></i>Зарегистрироваться</button>
+    </form>
+    </div>
+
+
+   {% endif %}
+
    {% endblock %}

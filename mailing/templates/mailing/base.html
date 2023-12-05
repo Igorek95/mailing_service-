@@ -27,26 +27,26 @@
 </head>
 
     <body>
-
+        <div class="wrapper">
         {% include 'mailing/includes/inc_side_menu.html' %}
 
         {% block content %}
         {% endblock %}
+        </div>
 
 
-
-        <footer class="text-muted">
-          <div class="container">
-            <p class="float-right">
-              <a href="{% url 'mailing:home' %}"><i class="fas fa-home"></i>Home</a>
+        <footer class="footer">
+            <div class="container">
+              <!-- Содержимое футера -->
+              <p>
+                <a href="{% url 'mailing:home' %}"><i class="fas fa-home"></i>Home</a>
                 <a href="{% url 'mailing:contact' %}"><i class="fa-solid fa-address-card"></i>Контакты</a>
                 <a href="{% url 'mailing:about' %}"><i class="fa-solid fa-feather"></i>О нас</a>
-
-            </p>
-            <p>&copy; 2023 - {% now 'Y' %} </p>
-          </div>
-
+              </p>
+              <p>&copy; 2023 - {% now 'Y' %}</p>
+            </div>
         </footer>
+    </body>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->

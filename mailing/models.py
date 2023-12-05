@@ -1,10 +1,17 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from users.models import User
+
+NULLABLE = {'null': True, 'blank': True}
 
 
 class Client(models.Model):
     email = models.EmailField(unique=True, verbose_name='Email')
     full_name = models.CharField(max_length=100, verbose_name='ФИО')
     comment = models.TextField(verbose_name='Комментарий')
+    user = models.ForeignKey(User, verbose_name=_(
+        "пользователь"), on_delete=models.CASCADE, default=None, **NULLABLE)
 
     def __str__(self):
         return f'{self.full_name} ({self.email})'
@@ -28,6 +35,8 @@ class Mailing(models.Model):
     send_time = models.DateTimeField(verbose_name='Время отправки', )
     frequency = models.CharField(max_length=50, choices=FREQUENCY_CHOICES, verbose_name='частота отправки', )
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Создана', verbose_name='Статус отправки')
+    user = models.ForeignKey(User, verbose_name=_(
+        "пользователь"), on_delete=models.CASCADE, default=None, **NULLABLE)
 
     def __str__(self):
         return f'{self.send_time} ({self.frequency} {self.status})'

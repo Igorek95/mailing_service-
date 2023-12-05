@@ -41,16 +41,19 @@ urlpatterns = [
     path('', home, name='home'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
+
     path('clients/', ClientListView.as_view(), name='client-list'),
     path('clients/create/', ClientCreateView.as_view(), name='client-create'),
     path('clients/<int:pk>/update/', ClientUpdateView.as_view(), name='client-update'),
     path('clients/<int:pk>/delete/', ClientDeleteView.as_view(), name='client-delete'),
+
     path('mailings/', MailingListView.as_view(), name='mailing_list'),
     path('mailings/create/', MailingCreateView.as_view(), name='mailing_create'),
     path('mailings/<int:pk>/update/', MailingUpdateView.as_view(), name='mailing-update'),
     path('mailings/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing-delete'),
     path('mailings/<int:pk>/send/', MailingSendView.as_view(), name='mailing-send'),
     path('mailings/<int:pk>/detail/', MailingDetailView.as_view(), name='mailing-detail'),
+
     path('message/', MessageListView.as_view(), name='message_list'),
     path('message/<int:pk>/detail/', MessageDetailView.as_view(), name='message-detail'),
     path('mailings/message/create/', MessageCreateView.as_view(), name='message-create'),

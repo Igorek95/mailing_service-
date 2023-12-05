@@ -1,16 +1,43 @@
-   {% extends 'mailing/base.html' %}
+{% extends 'mailing/base.html' %}
 
-   {% block content %}
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="row">
+        {% for client in clients %}
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h1 class="card-text">{{ client.full_name }}</h1>
+                        <p class="card-text">{{ client.email }}</p>
+                        <p class="card-text">{{ client.comment }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-warning" href="{% url 'client-detail' pk=client.pk %}" role="button">Подробнее</a>
+                                <a href="{% url 'client-update' pk=client.pk %}" role="button" class="btn btn-warning">Изменить</a>
+                                <a href="{% url 'client-delete' pk=client.pk %}" role="button" class="btn btn-danger">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'mailing:client-create' %}" class="btn btn-primary">Добавить клиента</a>
+    </div>
+   {% else %}
+    <div class="form-container">
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="styled-link"><i class="fas fa-sign-out-alt"></i>Вход</button>
+    </form>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="styled-link"><i class="fas fa-sign-out-alt"></i>Зарегистрироваться</button>
+    </form>
+    </div>
 
 
-   <h1>Главная страница</h1>
-
-
-
-
-
-
-
-
-
-   {% endblock %}
+   {% endif %}
+{% endblock %}

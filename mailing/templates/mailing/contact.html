@@ -1,16 +1,19 @@
-   {% extends 'mailing/base.html' %}
+{% extends 'mailing/base.html' %}
 
-   {% block content %}
+{% block title %}
+    <title>Контакты</title>
+{% endblock %}
 
-
-   <h1>Контакты</h1>
-
-
-
-
-
-
-
-
-
-   {% endblock %}
+{% block content %}
+    <main>
+        <div class="features">
+            <h1>Контакты</h1>
+            <p>Вы можете связаться со мной по следующим контактам:</p>
+            <ul>
+                <li>Email: example@email.com</li>
+                <li>Телефон: +1234567890</li>
+                <li>Адрес: ул. Примерная, дом №42</li>
+            </ul>
+        </div>
+    </main>
+{% endblock %}
