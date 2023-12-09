@@ -11,7 +11,8 @@ class Client(models.Model):
     full_name = models.CharField(max_length=100, verbose_name='ФИО')
     comment = models.TextField(verbose_name='Комментарий')
     user = models.ForeignKey(User, verbose_name=_(
-        "пользователь"), on_delete=models.CASCADE, default=None, **NULLABLE)
+        "пользователь"), on_delete=models.CASCADE, default=None, related_name='clients', **NULLABLE)
+
 
     def __str__(self):
         return f'{self.full_name} ({self.email})'
@@ -36,7 +37,7 @@ class Mailing(models.Model):
     frequency = models.CharField(max_length=50, choices=FREQUENCY_CHOICES, verbose_name='частота отправки', )
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Создана', verbose_name='Статус отправки')
     user = models.ForeignKey(User, verbose_name=_(
-        "пользователь"), on_delete=models.CASCADE, default=None, **NULLABLE)
+        "пользователь"), on_delete=models.CASCADE, default=None, related_name='mailings', **NULLABLE)
 
     def __str__(self):
         return f'{self.send_time} ({self.frequency} {self.status})'

@@ -1,16 +1,23 @@
-   {% extends 'mailing/base.html' %}
+{% extends 'mailing/base.html' %}
 
-   {% block content %}
-
-
-   <h1>Главная страница</h1>
-
-
-
-
-
-
-
-
-
-   {% endblock %}
+{% block content %}
+    <main>
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3>Рассылка: {{ mailing.send_time }} ({{ mailing.frequency }} {{ mailing.status }})</h3>
+                <ul>
+                    {% for message in messages %}
+                        <li><strong>Тема:</strong> {{ message.subject }}</li>
+                        <li><strong>Текст:</strong> {{ message.body }}</li>
+                        <hr>  <!-- Добавьте разделитель между сообщениями -->
+                    {% endfor %}
+                </ul>
+                <div class="btn-group mt-3">
+                    <a href="{% url 'mailing:mailing_list' %}" role="button" class="btn btn-primary">Назад</a>
+                    <a href="{% url 'mailing:mailing-update' pk=mailing.pk %}" role="button" class="btn btn-warning">Изменить</a>
+                    <a href="{% url 'mailing:mailing-delete' pk=mailing.pk %}" role="button" class="btn btn-danger">Удалить</a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
-from .forms import MailingForm, MessageForm
+from .forms import MailingForm, MessageForm, ClientForm
 from .models import Client, Mailing, Message
 
 
@@ -27,26 +27,28 @@ class ClientListView(ListView):
 class ClientCreateView(CreateView):
     model = Client
     template_name = 'mailing/client_form.html'
-    fields = ['email', 'full_name', 'comment']
-    success_url = reverse_lazy('client-list')
+    form_class = ClientForm
+    success_url = reverse_lazy('mailing:client-list')
 
 
 class ClientDetailView(DetailView):
     model = Client
     template_name = 'mailing/client_detail.html'
+    context_object_name = 'clients_detail'
+
 
 
 class ClientUpdateView(UpdateView):
     model = Client
     template_name = 'mailing/client_form.html'
     fields = ['email', 'full_name', 'comment']
-    success_url = reverse_lazy('client-list')
+    success_url = reverse_lazy('mailing:client-list')
 
 
 class ClientDeleteView(DeleteView):
     model = Client
     template_name = 'mailing/client_confirm_delete.html'
-    success_url = reverse_lazy('client-list')
+    success_url = reverse_lazy('mailing:client-list')
 
 
 class MailingListView(ListView):
@@ -78,13 +80,13 @@ class MailingUpdateView(UpdateView):
     model = Mailing
     template_name = 'mailing/mailing_form.html'
     form_class = MailingForm
-    success_url = reverse_lazy('mailing_list')
+    success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingDeleteView(DeleteView):
     model = Mailing
     template_name = 'mailing/mailing_confirm_delete.html'
-    success_url = reverse_lazy('mailing_list')
+    success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingSendView(UpdateView):
@@ -94,14 +96,24 @@ class MailingSendView(UpdateView):
     success_url = reverse_lazy('mailing:mailing_list')
 
 
+from django.shortcuts import get_object_or_404
+
 class MailingDetailView(ListView):
-    model = Message
+    model = Mailing
     template_name = 'mailing/mailing_detail.html'
-    context_object_name = 'messages'
+    context_object_name = 'mailing'
 
     def get_queryset(self):
-        mailing_id = self.kwargs['pk']
-        return Message.objects.filter(mailing_id=mailing_id)
+        return Mailing.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mailing = get_object_or_404(Mailing, pk=self.kwargs['pk'])
+        messages = Message.objects.filter(mailing=mailing)
+        context['mailing'] = mailing
+        context['messages'] = messages
+        return context
+
 
 
 class MessageListView(ListView):

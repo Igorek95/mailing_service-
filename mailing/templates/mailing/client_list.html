@@ -2,6 +2,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+<main>
     <div class="row">
         {% for client in clients %}
             <div class="col-md-4">
@@ -12,9 +13,9 @@
                         <p class="card-text">{{ client.comment }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a class="btn btn-warning" href="{% url 'client-detail' pk=client.pk %}" role="button">Подробнее</a>
-                                <a href="{% url 'client-update' pk=client.pk %}" role="button" class="btn btn-warning">Изменить</a>
-                                <a href="{% url 'client-delete' pk=client.pk %}" role="button" class="btn btn-danger">Удалить</a>
+                                <a href="{% url 'mailing:client-detail' pk=client.pk %}" role="button" class="btn btn-warning">Подробнее</a>
+                                <a href="{% url 'mailing:client-update' pk=client.pk %}" role="button" class="btn btn-warning">Изменить</a>
+                                <a href="{% url 'mailing:client-delete' pk=client.pk %}" role="button" class="btn btn-danger">Удалить</a>
                             </div>
                         </div>
                     </div>
@@ -40,4 +41,5 @@
 
 
    {% endif %}
+</main>
 {% endblock %}

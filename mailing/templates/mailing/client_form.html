@@ -1,16 +1,11 @@
-   {% extends 'mailing/base.html' %}
+{% extends 'mailing/base.html' %}
 
-   {% block content %}
+{% block content %}
 
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-warning">Сохранить изменения</button>
+</form>
 
-   <h1>Главная страница</h1>
-
-
-
-
-
-
-
-
-
-   {% endblock %}
+{% endblock %}
