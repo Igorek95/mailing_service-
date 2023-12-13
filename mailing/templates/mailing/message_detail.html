@@ -2,15 +2,18 @@
 
 {% block content %}
 
-   <div class="card mb-4 box-shadow">
-       <div class="card-body">
-           <h1 class="card-text">{{ message.subject | title }}</h1>
-           <p class="card-text">{{ message.body | title }}</p>
-           <p class="card-text">Периодичность рассылки: {{ message.mailing.frequency }}</p>
-           <div class="d-flex justify-content-between align-items-center">
-
-           </div>
-       </div>
-   </div>
-
+    <div class='product_desc'>
+        <div class='card' style='background-color: #1d1d1d; padding: 13px; margin: 7px; color: white; border: 2px solid #ffd900'>
+            <h5>Название Письма: {{ object.email_template_name }}</h5>
+            <hr>
+            <h6>Тема письма: {{ object.email_subject }}</h6>
+            <h6>Содержание письма: {{ object.email_body }}</h6>
+            {% if user.is_superuser or object.user == user %}
+            <div class='col-6'>
+                <a class="btn btn-warning" href="{% url 'mailing:update_templates' object.pk %}" role="button">Изменить</a>
+                <a class="btn btn-danger" href="{% url 'mailing:delete_templates' object.pk %}" role="button">Удалить</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

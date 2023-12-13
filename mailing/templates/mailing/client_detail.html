@@ -1,17 +1,18 @@
 {% extends 'mailing/base.html' %}
 
 {% block content %}
-    <main>
-        <div class="card mb-4 box-shadow">
-            <div class="card-body">
-                    <li><strong>Email:</strong> {{ object.email }}</li>
-                    <li><strong>ФИО:</strong> {{ object.full_name }}</li>
-                    <li><strong>Комментарий:</strong> {{ object.comment }}</li>
-                    <div class="btn-group">
-                        <a href="{% url 'mailing:client-update' pk=object.pk %}" role="button" class="btn btn-warning">Изменить</a>
-                        <a href="{% url 'mailing:client-delete' pk=object.pk %}" role="button" class="btn btn-danger">Удалить</a>
-                    </div>
+    <div class='product_desc'>
+        <div class='card' style='background-color: #1d1d1d; padding: 13px; margin: 7px; color: white; border: 2px solid #ffd900'>
+            <h5>ФИО: {{ object.full_name }}</h5>
+            <hr>
+            <h6>email: {{ object.email }}</h6>
+            <h6>Комментарий: {{ object.comment }}</h6>
+            {% if user.is_superuser or object.user == user %}
+            <div class='col-6'>
+                <a class="btn btn-warning" href="{% url 'mailing:update_clients' object.pk %}" role="button">Изменить</a>
+                <a class="btn btn-danger" href="{% url 'mailing:delete_clients' object.pk %}" role="button">Удалить</a>
             </div>
+            {% endif %}
         </div>
-    </main>
+    </div>
 {% endblock %}

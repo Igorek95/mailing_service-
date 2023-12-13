@@ -1,67 +1,48 @@
-"""
-URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.mailing, name='mailing')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='mailing')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
 from django.urls import path
-
-import config
-import mailing
-from .views import (
-    home,
-    contact,
-    ClientListView,
-    ClientCreateView,
-    ClientUpdateView,
-    ClientDeleteView,
-    MailingListView,
-    MailingCreateView,
-    MailingUpdateView,
-    MailingDeleteView,
-    MessageCreateView,
-    MailingSendView,
-    MailingDetailView, MessageDetailView, MessageDeleteView, MessageListView, MessageUpdateView, about,
-    ClientDetailView,
-)
+from mailing import views
 
 app_name = 'mailing'
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('contact/', contact, name='contact'),
-    path('about/', about, name='about'),
+    path('',  views.home, name='home'),
+    path('contact/',  views.contact, name='contact'),
+    path('about/', views.about, name='about'),
 
-    path('clients/', ClientListView.as_view(), name='client-list'),
-    path('clients/create/', ClientCreateView.as_view(), name='client-create'),
-    path('clients/<int:pk>/update/', ClientUpdateView.as_view(), name='client-update'),
-    path('clients/<int:pk>/delete/', ClientDeleteView.as_view(), name='client-delete'),
-    path('clients/<int:pk>/detail/', ClientDetailView.as_view(), name='client-detail'),
+    path('manager_menu/', views.email_distribution_menu, name='email_distribution'),
+    path('manager_rights/', views.ManagerTableView.as_view(), name='manager_menu'),
+    path('manager_menu/block_user/<int:pk>',
+         views.block_user, name='block_user'),
+    path('manager_menu/unblock_user/<int:pk>',
+         views.unblock_user, name='unblock_user'),
 
-    path('mailings/', MailingListView.as_view(), name='mailing_list'),
-    path('mailings/create/', MailingCreateView.as_view(), name='mailing_create'),
-    path('mailings/<int:pk>/update/', MailingUpdateView.as_view(), name='mailing-update'),
-    path('mailings/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing-delete'),
-    path('mailings/<int:pk>/send/', MailingSendView.as_view(), name='mailing-send'),
-    path('mailings/<int:pk>/detail/', MailingDetailView.as_view(), name='mailing-detail'),
+    path('clients', views.ClientTableView.as_view(), name='clients'),
+    path('clients/create', views.ClientCreateView.as_view(), name='create_clients'),
+    path('clients/<int:pk>/', views.ClientDetailView.as_view(), name='clients_detail'),
+    path('clients/<int:pk>/update',
+         views.ClientUpdateView.as_view(), name='update_clients'),
+    path('clients/<int:pk>/delete',
+         views.ClientDeleteView.as_view(), name='delete_clients'),
 
-    path('message/', MessageListView.as_view(), name='message_list'),
-    path('message/<int:pk>/detail/', MessageDetailView.as_view(), name='message-detail'),
-    path('message/create/', MessageCreateView.as_view(), name='message-create'),
-    path('message/<int:pk>/update/', MessageUpdateView.as_view(), name='message-update'),
-    path('message/<int:pk>/delete/', MessageDeleteView.as_view(), name='message-delete'),
+    path('mail_templates', views.EmailFillingTableView.as_view(),
+         name='mail_templates'),
+    path('mail_templates/create', views.EmailFillingCreateView.as_view(),
+         name='create_templates'),
+    path('mail_templates/<int:pk>',
+         views.EmailFillingDetailView.as_view(), name='templates_detail'),
+    path('mail_templates/<int:pk>/update',
+         views.EmailFillingUpdateView.as_view(), name='update_templates'),
+    path('mail_templates/<int:pk>/delete',
+         views.EmailFillingDeleteView.as_view(), name='delete_templates'),
 
+    path('mail_distributions', views.EmailSubscribtionTableView.as_view(),
+         name='mail_distributions'),
+    path('mail_distributions/create', views.EmailSubscribtionCreateView.as_view(),
+         name='create_distributions'),
+    path('mail_distributions/<int:pk>',
+         views.EmailSubscribtionDetailView.as_view(), name='distributions_detail'),
+    path('mail_distributions/<int:pk>/update',
+         views.EmailSubscribtionUpdateView.as_view(), name='update_distributions'),
+    path('mail_distributions/<int:pk>/delete',
+         views.EmailSubscribtionDeleteView.as_view(), name='delete_distributions'),
 
 ]
-

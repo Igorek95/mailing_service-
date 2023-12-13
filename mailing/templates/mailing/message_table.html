@@ -1,0 +1,27 @@
+{% extends 'mailing/base.html' %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class='row justify-content-center'>
+                <a class="btn btn-primary" href="{% url 'mailing:create_templates' %}" role="button">Добавить письмо</a>
+            </div><br>
+    {% render_table table %}
+    {% else %}
+        <div class="form-container">
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="styled-link"><i class="fas fa-sign-out-alt"></i>Вход</button>
+        </form>
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="styled-link"><i class="fas fa-sign-out-alt"></i>Зарегистрироваться</button>
+        </form>
+        </div>
+
+
+   {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,20 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <form method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.entry_title }}<br>
+            {{ form.entry_body }}<br>
+            {{ form.entry_img }}<br>
+            Опубликовать запись: {{ form.is_published }}<br>
+            {{ result | safe }}<br>
+            <button type="submit" class="btn btn-warning">Добавить запись</button>
+        </form>
+    {% else %}
+    <<p>У вас недостаточно прав.</p>
+    {% endif %}
+{%endblock%}

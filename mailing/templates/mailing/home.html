@@ -1,18 +1,76 @@
-
 {% extends 'mailing/base.html' %}
+{% load static %}
+{% load custom_tags %}
 
 {% block content %}
 
-   <main>
-      <div class="features">
-         <h1>Главная</h1>
-         <p>Сервис для рассылки электронных писем</p>
-      </div>
+<main>
+    <center>
 
-   </main>
+        <div class="features">
+            <h1>Главная</h1>
+            <p>Сервис для рассылки электронных писем</p>
+        </div>
+    </center>
+    <center>
+        <div class='row'
+             style='border: 1px solid #ebc803; border-radius: 5px; margin-bottom: 10px; width: 75%; background: #292929;'>
+
+            <div style='padding: 8px; width: 33%; height: 100px; float: left; color: white'>
+                <center><h4>Всего рассылок:</h4></center>
+                <center><h2>{{ sub_sum }}</h2></center>
+            </div>
 
 
+            <div style='padding: 8px; width: 33%; height: 100px; float: left; border-left: 1px solid #ebc803; border-right: 1px solid #ebc803; color: white'>
+                <center><h4>Активных рассылок:</h4></center>
+                <center><h2>{{ active_sub_sum }}</h2></center>
+            </div>
 
+            <div style='padding: 8px; width: 33%; height: 100px; float: left; color: white'>
+                <center><h4>Уникальных клиентов:</h4></center>
+                <center><h2>{{ client_sum }}</h2></center>
+            </div>
+
+
+        </div>
+    </center>
+
+
+    <p style="color: white;">Случайные записи из блога</p>
+    {% if blog_entries %}
+    {% for entry in blog_entries %}
+    <div class='entry'
+         style='weight: 80%; border-radius: 13px; border: 2px solid #d1b200; padding: 10px; margin-bottom: 8px; color: white'>
+
+
+        <div style='height: 40px; color: white '>
+            <a href="{% url 'list_entry' %}{{ entry.id }}" style='color: white'>
+                <div class='entry_name'>
+                    <h4>{{ entry.entry_title }}</h4>
+                </div>
+            </a>
+        </div>
+
+
+        <div style="color: white;" class='entry_desc'>
+            <h5>{{ entry.entry_body|truncatechars:300 }}</h5>
+            <p style='font-size: 15px; color: white'>Дата публикации: {{ entry.date_created }}</p>
+            <p style='font-size: 15px; color: white'>Просмотров: {{ entry.views_count }}</p>
+            <a class="btn btn-light" href="{% url 'list_entry' %}{{ entry.id }}" role="button">Подробнее</a>
+            {% if perms.blog.change_blogentry or user.is_superuser %}
+            <a class="btn btn-warning" href="{% url 'list_entry' %}{{ entry.id }}/update" role="button">Изменить</a>
+            {% endif %}
+            {% if perms.blog.delete_blogentry or user.is_superuser %}
+            <a class="btn btn-danger" href="{% url 'list_entry' %}{{ entry.id }}/delete" role="button">Удалить</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color: white;">Блог пока пуст:(</p>
+    {% endif %}
+</main>
 
 
 {% endblock %}

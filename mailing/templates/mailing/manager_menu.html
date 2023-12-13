@@ -1,0 +1,46 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+
+    <title>Меню менеджера</title>
+    <link rel="stylesheet" href="{% static 'mailing/catalog.css' %}">
+
+    <div>
+
+        <a href="{% url 'clients' %}" style='color: white;'>
+            <div class='product' style='height:120px; border-radius:7px; margin: 10px'>
+                <div style='height: 60px;'>
+                            <h4>Клиенты</h4>
+                </div>
+                <div class='product_desc'>
+                    <h6>Список клиентов для рассылки</h6>
+                </div>
+            </div>
+        </a>
+
+        <a href="{% url 'mail_templates' %}" style='color: white'>
+            <div class='product' style='height:120px; border-radius:7px; margin: 10px'>
+                <div style='height: 60px;'>
+                            <h4>Образцы писем</h4>
+                </div>
+                <div class='product_desc'>
+                    <h6>Темплейты темы и содержания письма</h6>
+                </div>
+            </div>
+        </a>
+
+        <a href="{% url 'mail_distributions' %}" style='color: white'>
+            <div class='product' style='height:120px; border-radius:7px; margin: 10px'>
+                <div style='height: 60px;'>
+                            <h4>Рассылки</h4>
+                </div>
+                <div class='product_desc'>
+                    <h6>Список рассылок клиентам</h6>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+{%endblock%}

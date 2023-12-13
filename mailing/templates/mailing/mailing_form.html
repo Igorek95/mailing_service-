@@ -1,27 +1,15 @@
 {% extends 'mailing/base.html' %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-
-        <div class="mb-3">
-            {{ form.send_time.label_tag }}
-            {{ form.send_time }}
-            {{ form.send_time.errors }}
-        </div>
-
-        <div class="mb-3">
-            {{ form.frequency.label_tag }}
-            {{ form.frequency }}
-            {{ form.frequency.errors }}
-        </div>
-
-        <div class="mb-3">
-            {{ form.status.label_tag }}
-            {{ form.status }}
-            {{ form.status.errors }}
-        </div>
-
-        <button type="submit" href="{% url 'mailing:mailing_list' %}" class="btn btn-warning">Сохранить изменения</button>
-    </form>
+    {% if user.is_authenticated %}
+    <div class='card'>
+        <form method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-warning">{{ type }} рассылку</button>
+        </form>
+    </div>
+    {% else %}
+    <p>У вас недостаточно прав.</p>
+    {% endif %}
 {% endblock %}

@@ -1,23 +1,28 @@
 {% extends 'mailing/base.html' %}
+{% load custom_tags %}
+
 
 {% block content %}
-    <main>
-        <div class="card mb-4 box-shadow">
-            <div class="card-body">
-                <h3>Рассылка: {{ mailing.send_time }} ({{ mailing.frequency }} {{ mailing.status }})</h3>
-                <ul>
-                    {% for message in messages %}
-                        <li><strong>Тема:</strong> {{ message.subject }}</li>
-                        <li><strong>Текст:</strong> {{ message.body }}</li>
-                        <hr>  <!-- Добавьте разделитель между сообщениями -->
-                    {% endfor %}
-                </ul>
-                <div class="btn-group mt-3">
-                    <a href="{% url 'mailing:mailing_list' %}" role="button" class="btn btn-primary">Назад</a>
-                    <a href="{% url 'mailing:mailing-update' pk=mailing.pk %}" role="button" class="btn btn-warning">Изменить</a>
-                    <a href="{% url 'mailing:mailing-delete' pk=mailing.pk %}" role="button" class="btn btn-danger">Удалить</a>
-                </div>
+    <div class='product_desc'>
+        <div class='card' style='background-color: #1d1d1d; padding: 13px; margin: 7px; color: white; border: 2px solid #ffd900'>
+            <h5>Темплейт письма: {{ object.email_filling }}</h5>
+            <hr>
+            <h6>Клиенты: </h6>
+            {% for client in object.client.all %}
+            <pre style='margin-bottom: 0px'><h6>   - {{ client }}</h6></pre>
+            {% endfor %}
+            <h6>Периодичность рассылки: {{ object.periodic_time }}</h6>
+            <h6>Время рассылки: {{ object.time }}</h6>
+            <h6>Включена: {{ object.is_enabled }}</h6>
+            <h6>Статус рассылки: {{ object.status }}</h6>
+            {% if user.is_superuser or object.user == user or user|has_group:"Менеджер" %}
+            <div class='col-6'>
+                <a class="btn btn-warning" href="{% url 'mailing:update_distributions' object.pk %}" role="button">Изменить</a>
+                {% if user.is_superuser or object.user == user %}
+                    <a class="btn btn-danger" href="{% url 'mailing:delete_distributions' object.pk %}" role="button">Удалить</a>
+                {% endif %}
             </div>
+            {% endif %}
         </div>
-    </main>
+    </div>
 {% endblock %}

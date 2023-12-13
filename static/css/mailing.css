@@ -150,7 +150,7 @@ button {
     background-color: #ffc107;
     border: 1px solid transparent;
     border-radius: 0.25rem;
-    margin-top: 120px; /* Добавленное свойство */
+
 }
 
 
@@ -164,20 +164,19 @@ button {
     margin: 0 auto;
 }
 
-/* Ваши существующие стили */
 
 .footer {
   width: 80%;
-  max-width: 80%; /* Ограничение ширины до 80% */
-  height: 100px; /* Высота вашего футера */
-  background-color: black; /* Цвет футера */
-  color: white; /* Цвет текста */
+  max-width: 80%;
+  height: 100px;
+  background-color: black;
+  color: white;
   display: flex;
-  justify-content: flex-end; /* Выравнивание по правому краю */
+  justify-content: flex-end;
   align-items: center;
   position: fixed;
   bottom: 0;
-  right: 0; /* Выравнивание по правому краю */
+  right: 0;
 }
 
 .footer .container {
@@ -186,4 +185,5 @@ button {
   justify-content: space-between;
   align-items: center;
 }
+
 

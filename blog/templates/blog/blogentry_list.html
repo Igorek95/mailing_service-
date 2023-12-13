@@ -1,0 +1,41 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% for entry in page_obj %}
+        <div class='entry' style='weight: 80%; border-radius: 13px; border: 2px solid #d1b200; padding: 10px'>
+            <div style='height: 40px; '>
+                <a href="{% url 'list_entry' %}{{ entry.id }}" style='color: white'>
+                    <div class='entry_name'>
+                        <h4>{{ entry.entry_title }}</h4>
+                    </div>
+                </a>
+            </div>
+
+            <div class='entry_desc'>
+                <h5 style='color: white;'>{{ entry.entry_body|truncatechars:300 }}</h5>
+                <p style='font-size: 15px; color: white;'>Дата публикации: {{ entry.date_created }}</p>
+                <p style='font-size: 15px; color: white;'>Просмотров: {{ entry.views_count }}</p>
+                <a class="btn btn-light" href="{% url 'list_entry' %}{{ entry.id }}" role="button">Подробнее</a>
+                {% if perms.blog.change_blogentry or user.is_superuser %}
+                    <a class="btn btn-warning" href="{% url 'list_entry' %}{{ entry.id }}/update" role="button">Изменить</a>
+                {% endif %}
+                {% if perms.blog.delete_blogentry or user.is_superuser %}
+                    <a class="btn btn-danger" href="{% url 'list_entry' %}{{ entry.id }}/delete" role="button">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <div>
+        {% for page_button in paginator.page_range %}
+            {% if page_obj.number == page_button %}
+                <a class='btn' style='background-color: #ffd900; color: black; border-radius: 7px; margin-left: 2px; margin-right: 2px;' href="?page={{ page_button }}" role='button'>{{ page_button }}</a>
+            {% elif page_button >= page_obj.number|add:-2 and page_button <= page_obj.number|add:2  %}
+                <a class='btn' style='background-color: #d1b200; color: black; border-radius: 7px; margin-left: 2px; margin-right: 2px;' href="?page={{ page_button }}" role='button'>{{ page_button }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div style="text-align: center">
+        <a class="btn btn-primary btn-lg" href="{% url 'add_entry' %}" role="button">Добавить</a>
+    </div>
+{% endblock %}

@@ -43,7 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mailing',
+    'blog',
     'users',
+    'django_tables2',
+    'django_crontab',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
@@ -113,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -161,3 +166,7 @@ if CACHE_ENABLED:
             "LOCATION": "redis://127.0.0.1:6379",
         }
     }
+
+CRONJOBS = [
+    ('*/5 * * * *', 'mailing.services.start_distribution_task')
+]
